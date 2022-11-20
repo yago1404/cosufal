@@ -7,6 +7,7 @@ require('dotenv-safe').config(
 );
 
 const userController = require('./controllers/user_controller');
+const itemController = require('./controllers/item_controller');
 
 const app = express();
 
@@ -16,6 +17,7 @@ app.use(express.json());
 app.use(cors());
 
 app.use('/user', userController);
+app.use('/item', itemController);
 
 app.listen(8081, () => {
     console.log('Daipe Backend run in http://localhost:8081');
