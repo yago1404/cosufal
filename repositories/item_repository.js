@@ -1,8 +1,10 @@
 const { query } = require("../config/db");
 const academicUnityRepository = require("../repositories/academic_unity_repository");
+const imageRepository = require("../repositories/image_repository");
 
 const addItem = async function (item) {
-    await query('INSERT INTO item(name, amount, status, description, location) VALUES ($1, $2, True, $3, $4)', [item.name, item.amount, item.description, item.location]);
+    await query('INSERT INTO item(name, amount, status, description, location) ' +
+        'VALUES ($1, $2, True, $3, $4)', [item.name, item.amount, item.description, item.location]);
 }
 
 const getAllItens = async function () {
@@ -12,6 +14,7 @@ const getAllItens = async function () {
             let local = await academicUnityRepository.findAcademicUnityById(item.location);
             delete item.location;
             item.location = local;
+            item.images = await imageRepository.getImagesByItemId(item.id);
         }
     }
     return result.rows;
